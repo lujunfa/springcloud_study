@@ -1,7 +1,8 @@
-package org.junfalu.springboot.springbootlearn.Indicator;
+package org.junfalu.springboot.Indicator;
 
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.stereotype.Component;
 
 /**
  * @Auther: lujunfa
@@ -9,6 +10,7 @@ import org.springframework.boot.actuate.health.HealthIndicator;
  * @Description:根据需要实现自己的健康检测器，用于actuator报告中
  *
  */
+@Component
 public class MyOwnIndicator implements HealthIndicator {
     @Override
     public Health health() {
