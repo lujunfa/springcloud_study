@@ -12,6 +12,9 @@ import org.springframework.web.client.RestTemplate;
  * @Description:服务消费
  */
 
+/**
+ * eureka也会将服务消费方当做服务注册进注册中心
+ */
 @RestController
 public class ConsumerController {
 

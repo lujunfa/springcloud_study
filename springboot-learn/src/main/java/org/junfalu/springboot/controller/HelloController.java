@@ -25,7 +25,7 @@ public class HelloController {
     public String index(){
         ServiceInstance serviceInstance = client.getLocalServiceInstance();
 
-        logger.info("/hello.host："+serviceInstance.getHost()+",service_id" + serviceInstance.getServiceId());
+        logger.info("/hello.host："+serviceInstance.getHost()+",service_id=" + serviceInstance.getServiceId());
         return "hello";
     }
 }

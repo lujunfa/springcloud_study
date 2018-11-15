@@ -1,1 +1,24 @@
-Eureka server的设计一开始就考虑了高可用的问题，在eureka的服务治理设计中，所有的节点即是服务提供方，也是服务消费方，服务注册中心也是如此
+1、Eureka server的设计一开始就考虑了高可用的问题，在eureka的服务治理设计中，所有的节点即是服务提供方，也是服务消费方，服务注册中心也是如此
+
+2、服务治理机制
+
+服务提供者：
+服务注册，服务提供者在启动的时候通过发送REST 请求的方式将自己注册到Eureka Server上，同时带上自身服务的一些元数据信息。注册中心
+收到这个请求的时候将原数据存储在一个双层结构map中，其中第一层的key式服务名，第二层的key是具体服务的实例名，
+需确认eureka.client.register-with-eureka=true是否设置，默认为true，如果为false则不会注册服务。
+
+服务同步：
+在俩个互相注册为服务的高可用eureka中心时，它们会互相发送服务注册请求到其他注册中心节点，从而实现服务数据同步。
+
+
+服务续约：
+在注册服务之后，服务提供者会维护一个心跳用来持续告诉eureka server我还活着，防止eureka将服务剔除。关于服务续约有俩个重要的属性。
+eureka.instance.lease-renewal-internal-in-seconds=30   定义服务续约间隔时间，默认30秒
+eureka.instance.lease-expiration-duration-in-seconds=90  定义服务失效的时间默认90秒
+
+
+在访问实例的选择上，eureka有Region和Zone的概念，一个region中可以包含多个Zone，每个服务需要被注册到一个Zone中，所以每一个服务对应一个Region
+和一个Zone，在服务调用的时候优先访问同处一个Zone的服务提供方，若访问不到在访问其他Zone
+
+当一个服务实例正常关闭操作，会发送一个rest请求给eureka server中心，eureka会将该服务实例剔除掉，并把该实例下线事件传播出去。
+服务超时没续约的话也会被注册中心剔除
