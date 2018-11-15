@@ -1,0 +1,2 @@
+1、在springcloud中服务的发现由eureka客户端实现，服务的负载均衡消费由ribbon组件提供支持
+
