@@ -1,5 +1,6 @@
 package org.junfalu.springboot.controller;
 
+import org.junfalu.springboot.Entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,12 @@ public class HelloController {
 
         logger.info("/hello.host："+serviceInstance.getHost()+",service_id=" + serviceInstance.getServiceId());
         return "hello";
+    }
+
+    @RequestMapping("/getUser")
+    public User getUser(String name){
+        if("lujunfa".equals(name))
+        return  User.init();
+        else return null;
     }
 }

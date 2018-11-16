@@ -1,2 +1,11 @@
 1、在springcloud中服务的发现由eureka客户端实现，服务的负载均衡消费由ribbon组件提供支持
 
+2、通过Ribbon的封装，我们在微服务架构中使用客户端负载均衡调用非常简单，只需要实现如下俩步：
+①服务提供者只需要启动多个服务实例到一个注册中心或是一个注册中心集群中。
+②服务消费者直接通过调用被@LoadBalanced注解修饰过得RestTemplate来实现面向服务的接口调用。
+
+3、ribon的负载均衡策略有以下几种。
+①RandomRule  随机选择策略
+②RoundRobinRule   线性轮询策略
+③ReTryRule      重试策略,内部使用roundRobinRule策略
+④WeightedResponseTimeRule
