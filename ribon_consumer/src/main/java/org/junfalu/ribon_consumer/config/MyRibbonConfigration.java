@@ -11,8 +11,14 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class MyRibbonConfigration {
-    @Bean
+
+    /**
+     * 定制化ribbon的Ping组件
+     * @param clientConfig
+     * @return
+     */
+   /* @Bean
     public IPing ribbonPing(IClientConfig clientConfig){
         return new PingUrl();
-    }
+    }*/
 }

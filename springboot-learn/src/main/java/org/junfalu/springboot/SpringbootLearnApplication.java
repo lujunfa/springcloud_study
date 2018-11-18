@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
+//开启eureka客户端
 @EnableDiscoveryClient
 public class SpringbootLearnApplication {
 

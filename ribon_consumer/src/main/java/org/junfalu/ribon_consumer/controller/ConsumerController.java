@@ -1,6 +1,7 @@
 package org.junfalu.ribon_consumer.controller;
 
 import org.junfalu.ribon_consumer.Entity.User;
+import org.junfalu.ribon_consumer.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +24,9 @@ public class ConsumerController {
     @Autowired
     RestTemplate restTemplate;
 
+    @Autowired
+    HelloService helloService;
+
     @RequestMapping(value = "/ribbon-consummer",method = RequestMethod.GET)
     public String helloConsumer(){
         return restTemplate.getForEntity("http://HELLO-SERVICE/hello",String.class).getBody();
@@ -42,5 +46,10 @@ public class ConsumerController {
         return restTemplate.getForEntity(uri,User.class).getBody();*/
 
         return restTemplate.getForEntity("http://HELLO-SERVICE/getUser?name={1}",User.class, name).getBody();
+    }
+
+    @RequestMapping(value = "/hystrix-helloservice")
+    public String hystrixHelloService(){
+        return helloService.helloService();
     }
 }
