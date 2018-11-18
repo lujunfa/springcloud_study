@@ -8,4 +8,18 @@
 ①RandomRule  随机选择策略
 ②RoundRobinRule   线性轮询策略
 ③ReTryRule      重试策略,内部使用roundRobinRule策略
-④WeightedResponseTimeRule
+④WeightedResponseTimeRule  权重策略
+⑤ClientConfigEnableRoundRobinRule 其使用了RoundRobin的策略，一般高级策略都是基于这种策略的扩展，当他的子类无法满足实现高级策略时，就是使用
+线性轮询的测略。
+⑥BestAvaliableRule  该策略继承自ClientConfigEnableRoundRobinRule，该策略的特性是选出最空闲的实例。
+⑦PredicateBaseRule  该策略也继承了ClientConfigEnableRoundRobinRule，是一个抽象策略。先通过子类中实现的Predicate逻辑来过滤一部分服务实例，然后
+再以线性轮询的方式从实例清单中选择一个。
+⑧AvailabilityFilteringRule 该策略继承自PredicateBaseRule，所以也是先过滤再线性轮询的方案
+⑨ZoneAvoidanceRule  该策略也是继承PredicateBaseRule。使用主过滤对所有实例进行过滤，然后依次使用次过滤条件对剩下的服务实例进行过滤。每次过滤后
+都需要判断下面俩个条件，只要一个符合就不在过滤。将当前结果返回供线性轮询。过滤后的实例总数>=最小过滤实例数；过滤后实例比例>最小过滤百分比。
+ribon默认使用这种负载均衡策略。
+
+
+可以通过配置ribbon.eureka.enabled=false禁用Eureka对Ribbon服务实例的维护实现。
+
+
