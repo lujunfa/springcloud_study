@@ -1,6 +1,7 @@
 package org.junfalu.ribon_consumer;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 class User {
@@ -85,6 +86,10 @@ public class Test11Collectors {
         //二级分组：线按照分数分组，返回一个Map<Integer, List<User>>, 在根据用户名分组
         Map<Integer, Map<String, List<User>>> scoreNameUsers = userList.stream().collect(Collectors.groupingBy(User::getScore, Collectors.groupingBy(User::getName)));
         System.out.println("scoreNameUsers = " + scoreNameUsers);
+
+        //根据分数分组，统计每个分数的年龄
+        Map<Integer, Set<Integer>> scoreUserSet = userList.stream().collect(Collectors.groupingBy(User::getScore, Collectors.mapping(User::getAge,Collectors.toSet())));
+        System.out.println("scoreUserSet = " + scoreUserSet);
  
         //分区,是否及格
         Map<Boolean, List<User>> jigeUsers = userList.stream().collect(Collectors.partitioningBy(user -> user.getScore() >= 60));
@@ -101,7 +106,13 @@ public class Test11Collectors {
         //先按照名字分组,获取每个分组分数最小的
         Map<String, User> UserCount = userList.stream().collect(Collectors.groupingBy(User::getName, Collectors.collectingAndThen(Collectors.minBy(Comparator.comparingInt(User::getScore)), Optional::get)));
         System.out.println("UserCount = " + UserCount);
- 
+
+        //userMap : key->name value->user
+        //这个如果key有重复的话会报duplicatekey 错误，因为存在相同名字的user，为了避免这个错误，这里用tomap的重载方法，意思当
+        //t1和t2一致的话，t2覆盖t1,你也可以自己编写其他合并策略
+        // Map<String, User> userMap = userList.stream().collect(Collectors.toMap(User::getName, Function.identity());
+        Map<String, User> userMap = userList.stream().collect(Collectors.toMap(User::getName, Function.identity(), (t1,t2) ->t1));
+        System.out.println("userMap= "+ userMap);
  
     }
 }
