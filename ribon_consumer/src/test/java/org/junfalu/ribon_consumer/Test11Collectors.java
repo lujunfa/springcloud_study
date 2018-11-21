@@ -111,7 +111,8 @@ public class Test11Collectors {
         //这个如果key有重复的话会报duplicatekey 错误，因为存在相同名字的user，为了避免这个错误，这里用tomap的重载方法，意思当
         //t1和t2一致的话，t2覆盖t1,你也可以自己编写其他合并策略
         // Map<String, User> userMap = userList.stream().collect(Collectors.toMap(User::getName, Function.identity());
-        Map<String, User> userMap = userList.stream().collect(Collectors.toMap(User::getName, Function.identity(), (t1,t2) ->t1));
+        //Function.identity() 等同于 t1->t1
+        Map<String, User> userMap = userList.stream().collect(Collectors.toMap(User::getName, t1->t1, (t1,t2) ->t1));
         System.out.println("userMap= "+ userMap);
  
     }
