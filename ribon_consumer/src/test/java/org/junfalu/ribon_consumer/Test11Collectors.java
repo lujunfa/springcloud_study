@@ -1,7 +1,8 @@
 package org.junfalu.ribon_consumer;
 
+import com.google.common.collect.Maps;
+
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 class User {
@@ -40,6 +41,11 @@ class User {
     public void setAge(int age) {
         this.age = age;
     }
+
+    @Override
+    public String toString() {
+        return name+" "+ age+" "+ score;
+    }
 }
 public class Test11Collectors {
     public static void main(String[] args) {
@@ -56,6 +62,11 @@ public class Test11Collectors {
  
         //算出分数最大的那个并输出（无法做到多个并列的时候求值）
         Optional optional = userList.stream().collect(Collectors.maxBy(Comparator.comparingInt(User::getScore)));
+
+        Optional optional1 = userList.stream().max((o1,o2)->{
+          return Integer.compare(o1.getScore(),o2.getScore());
+        });
+        System.out.println("option:"+optional.get()+" option2:"+optional1.get());
         //optional.isPresent(System.out::println);//isPresent是判断是否存在，不能接受参数
         optional.ifPresent(System.out::println);//直接使用时ifPresent
  
@@ -102,10 +113,48 @@ public class Test11Collectors {
         //分区,是否及格,算出及格的个数
         Map<Boolean, Long> jigeUserCount = userList.stream().collect(Collectors.partitioningBy(user -> user.getScore() >= 60, Collectors.counting()));
         System.out.println("jigeUserCount = " + jigeUserCount);
+
+        //计算分数大于等于60的人数
+        Long count= userList.stream().filter(user -> user.getScore()>= 60).count();
+        System.out.println("及格人数"+count);
  
         //先按照名字分组,获取每个分组分数最小的
         Map<String, User> UserCount = userList.stream().collect(Collectors.groupingBy(User::getName, Collectors.collectingAndThen(Collectors.minBy(Comparator.comparingInt(User::getScore)), Optional::get)));
         System.out.println("UserCount = " + UserCount);
+
+        //获取分数最高的前俩个人信息
+        System.out.println("获取分数最高的前俩个人信息");
+        userList.stream().sorted((o1,o2)->Integer.compare(o1.getScore(), o2.getScore()))
+                .limit(2).collect(Collectors.toList()).forEach(System.out::println);
+
+
+        //降序排序
+        System.out.println("====降序排序");
+        userList.stream().sorted(Comparator.comparing(User::getAge).reversed())
+                    .collect(Collectors.toList()).forEach(System.out::println);
+
+        //升序排序
+        System.out.println("====升序排序");
+        userList.stream().sorted(Comparator.comparing(User::getAge))
+                .collect(Collectors.toList()).forEach(System.out::println);
+
+        //求平均数
+        System.out.println("===平均分数");
+        OptionalDouble optionalDouble =  userList.stream().filter(user-> user.getScore()>=60).mapToInt(user->user.getScore()).average();
+        System.out.println("平均分数："+optionalDouble.getAsDouble());
+
+        //所有的满足条件
+        System.out.println("所有人分数都大于60:"+userList.stream().allMatch(user-> user.getScore()>60));
+
+        //多字段进行排序
+        System.out.println("====多字段参与排序");
+        Comparator<User> comparator = Comparator.comparing(User::getAge,(o1,o2)->{
+            return o1.compareTo(o2);
+        }).thenComparing(User::getScore,(o1,o2)->{
+            return o1.compareTo(o2);
+        });
+        userList.stream().sorted(comparator).forEach(System.out::println);
+
 
         //userMap : key->name value->user
         //这个如果key有重复的话会报duplicatekey 错误，因为存在相同名字的user，为了避免这个错误，这里用tomap的重载方法，意思当
@@ -114,6 +163,16 @@ public class Test11Collectors {
         //Function.identity() 等同于 t1->t1
         Map<String, User> userMap = userList.stream().collect(Collectors.toMap(User::getName, t1->t1, (t1,t2) ->t1));
         System.out.println("userMap= "+ userMap);
+
+        Map<String,String> map = Maps.newHashMap();
+        map.put("lujunfa", "patric");
+        map.put("nixi", "linna");
+        map.forEach((k,v)->{
+            if(k.equals("lujunfa")){
+                return;
+            }
+            System.out.println(v);
+        });
  
     }
 }
