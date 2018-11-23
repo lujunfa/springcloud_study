@@ -22,4 +22,14 @@ ribon默认使用这种负载均衡策略。
 
 可以通过配置ribbon.eureka.enabled=false禁用Eureka对Ribbon服务实例的维护实现。
 
+HystrixCommand：用在依赖的服务返回单个操作结果
+HystrixObservableCommand:用在依赖的服务返回多个结果的时候
+
+可以通过继承一个HystrixCommand或者HystrixObservableCommand或者通过@HystrixCommand来申明一个命令
+
+注意hotobservable和coldobservable俩种区别
+
+虽然HystrixCommand具备observe()和toObsevable()功能，但是它返回的Observable只能发射一次数据，而HystrixObservableCommand可以获取能发射多次的
+Obervable
+
 

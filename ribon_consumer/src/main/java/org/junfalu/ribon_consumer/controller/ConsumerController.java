@@ -1,6 +1,8 @@
 package org.junfalu.ribon_consumer.controller;
 
 import org.junfalu.ribon_consumer.Entity.User;
+import org.junfalu.ribon_consumer.hystrix.UserCommand;
+import org.junfalu.ribon_consumer.hystrix.UserObervebleCommand;
 import org.junfalu.ribon_consumer.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import rx.Observable;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * @Auther: lujunfa
@@ -51,5 +57,32 @@ public class ConsumerController {
     @RequestMapping(value = "/hystrix-helloservice")
     public String hystrixHelloService(){
         return helloService.helloService();
+    }
+
+    /**
+     * 功能描述: 异步调用
+     * @return: java.lang.String
+     * @date: 2018/11/23 17:10
+     */
+    @RequestMapping(value = "/hystrixAysnc")
+    public String hystrixAysnc() throws ExecutionException, InterruptedException {
+        return helloService.helloServiceSync().get();
+    }
+
+    @RequestMapping("/hysstrix-command")
+    public User getUserHystrixCommand(@RequestParam("name") String name){
+        UserCommand userCommand = new UserCommand(restTemplate,name);
+        User user = userCommand.execute();//同步执行
+       /* Future<User> future = userCommand.queue();//异步执行
+        Observable<User> hot =  userCommand.observe();  //响应式执行
+        Observable<User> cold = userCommand.toObservable(); //响应式执行*/
+        return user;
+    }
+
+    @RequestMapping("/hystrixObservableCommand")
+    public User hystrixObservableCommand(@RequestParam("name") String name){
+        UserObervebleCommand command  = new UserObervebleCommand(restTemplate,name);
+        Observable<User> userObservable = command.toObservable();
+        return  userObservable.
     }
 }
