@@ -40,4 +40,25 @@ public class UserObervebleCommand extends HystrixObservableCommand<User> {
             }
         });
     }
+
+
+    //服务降级
+    @Override
+    protected Observable<User> resumeWithFallback() {
+        return Observable.create(new Observable.OnSubscribe<User>() {
+            @Override
+            public void call(Subscriber<? super User> subscriber) {
+                try {
+                    if (!subscriber.isUnsubscribed()) {
+                        User user = new User();
+                        subscriber.onNext(user);
+                        subscriber.onCompleted();
+                    }
+                }catch (Exception e){
+                       subscriber.onError(e);
+                }
+            }
+        });
+
+    }
 }

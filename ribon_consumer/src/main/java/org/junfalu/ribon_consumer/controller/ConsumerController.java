@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import rx.Observable;
+import rx.Observer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -83,6 +86,27 @@ public class ConsumerController {
     public User hystrixObservableCommand(@RequestParam("name") String name){
         UserObervebleCommand command  = new UserObervebleCommand(restTemplate,name);
         Observable<User> userObservable = command.toObservable();
-        return  userObservable.
+        List<User> list = new ArrayList<User>();
+
+        //订阅触发
+        userObservable.subscribe(new Observer<User>() {
+            @Override
+            public void onCompleted() {
+                System.out.println("返回的用户信息:"+list);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                t.printStackTrace();
+            }
+
+            @Override
+            public void onNext(User user) {
+               list.add(user);
+            }
+
+        });
+        return  list.get(0);
     }
+
 }
