@@ -1,4 +1,4 @@
-package org.junfalu.ribon_consumer.hystrix;
+package org.junfalu.ribon_consumer.hystrix.command;
 
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixObservableCommand;

@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @Auther: lujunfa
@@ -35,5 +39,12 @@ public class HelloController {
         if("lujunfa".equals(name))
         return  User.init();
         else return null;
+    }
+
+    @RequestMapping("/getUsers")
+    public List<User> getUsers(@RequestParam("userId") String userId){
+        return Arrays.asList(new User("lujunchao",17,'m'),
+                new User("ludesheng",50,'m'),
+                new User("nixi",23, 'f'));
     }
 }

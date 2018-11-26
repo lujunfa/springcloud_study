@@ -1,9 +1,12 @@
 package org.junfalu.ribon_consumer.controller;
 
 import org.junfalu.ribon_consumer.Entity.User;
-import org.junfalu.ribon_consumer.hystrix.UserCommand;
-import org.junfalu.ribon_consumer.hystrix.UserObervebleCommand;
+import org.junfalu.ribon_consumer.hystrix.collapser.UserCollapserCommand;
+import org.junfalu.ribon_consumer.hystrix.command.UserBatchCommand;
+import org.junfalu.ribon_consumer.hystrix.command.UserCommand;
+import org.junfalu.ribon_consumer.hystrix.command.UserObervebleCommand;
 import org.junfalu.ribon_consumer.service.HelloService;
+import org.junfalu.ribon_consumer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +19,6 @@ import rx.Observer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 /**
  * @Auther: lujunfa
@@ -35,6 +37,9 @@ public class ConsumerController {
 
     @Autowired
     HelloService helloService;
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/ribbon-consummer",method = RequestMethod.GET)
     public String helloConsumer(){
@@ -107,6 +112,18 @@ public class ConsumerController {
 
         });
         return  list.get(0);
+    }
+
+
+    /**
+     * 合并多个相同请求
+     * @param userId
+     * @return
+     */
+    @RequestMapping("/collapserConsummer")
+    public User getListUser(@RequestParam("userId") String userId){
+        UserCollapserCommand collapserCommand = new UserCollapserCommand(userService, userId);
+        return collapserCommand.execute();
     }
 
 }

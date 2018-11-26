@@ -12,6 +12,15 @@ public class User {
 
     private char gender;
 
+    public User() {
+    }
+
+    public User(String name, int age, char gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
+
     public String getName() {
         return name;
     }
