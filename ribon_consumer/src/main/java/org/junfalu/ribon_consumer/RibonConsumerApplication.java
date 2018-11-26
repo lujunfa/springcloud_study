@@ -8,7 +8,6 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
-
 //开启eureka客户端
 @EnableDiscoveryClient
 @SpringBootApplication

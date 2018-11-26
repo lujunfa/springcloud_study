@@ -47,6 +47,18 @@
             <artifactId>spring-cloud-starter-ribbon</artifactId>
         </dependency>
 
+        <!--加入hystrixdashborad组件，实时反映hystrixcommand健康状态-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-hystrix-dashbord</artifactId>
+        </dependency>
+
+        <!--springboot 运行监测 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
         <!-- sqlite数据库驱动 -->
         <dependency>
             <groupId>org.xerial</groupId>
