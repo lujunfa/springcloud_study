@@ -50,7 +50,7 @@
         <!--加入hystrixdashborad组件，实时反映hystrixcommand健康状态-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-hystrix-dashbord</artifactId>
+            <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
         </dependency>
 
         <!--springboot 运行监测 -->
