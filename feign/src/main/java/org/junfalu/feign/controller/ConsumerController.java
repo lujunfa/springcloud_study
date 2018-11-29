@@ -1,5 +1,6 @@
 package org.junfalu.feign.controller;
 
+import org.junfalu.feign.Entity.User;
 import org.junfalu.feign.feignService.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,5 +22,14 @@ public class ConsumerController {
     @RequestMapping(value = "/feign-consumer",method = RequestMethod.GET)
     public String feignConsummer(){
         return helloService.hello();
+    }
+
+    @RequestMapping(value = "/feign-consumer2",method = RequestMethod.GET)
+    public String feignConsummer2(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(helloService.hello2("lujunfa")).append("\n")
+                .append(helloService.hello3("lujunchao",17)).append("\n")
+                .append(helloService.hello4(new User("liangdongxiu",41,'f'))).append("\n");
+        return stringBuilder.toString();
     }
 }

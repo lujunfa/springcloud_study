@@ -1,4 +1,4 @@
-package org.junfalu.springboot.Entity;
+package org.junfalu.feign.Entity;
 
 /**
  * @Author: lujunfa
