@@ -1,0 +1,23 @@
+zuul路由详解
+
+
+一、传统路由配置
+①单实例配置
+通过zuul.routes.<route>.path 与zuul.routes.<route>.url参数对的方式进行配置，例如
+zuul.routes.user-service.path = /user-service/**
+zuul.routes.user-service.url=http://localhost:8080/
+该配置实现了对符合/user-service/**的请求规则都会映射到http://localhost:8080/这个接口地址来
+②多实例配置
+通过zuul.routes.<route>.path 与zuul.routes.<route>.serviceId参数对配置，比如
+zuul.routes.user-service.path = /user-service/**
+zuul.routes.user-service.serviceId=user-service
+ribbon.eureka.enabled=false
+user-service.ribbon.listOfServers=http://localhost:8080/,http://localhost:8081/
+当一个/user-service/**的规则请求来的时候，网关会根据配置的http://localhost:8080/,http://localhost:8081/这俩个地址列表请求对应的服务接口
+二、服务路由配置
+对于服务路由，zuul通过将本身注册进eureka服务注册中心，与eureka整合，实现了对服务实例的自动化维护，所以在使用服务路由配置的时候，不需要
+向传统路由配置方式那样serviceId指定具体的服务实例地址，只需要通过zuul.routes.<route>.path与zuul.routes.<route>.serviceId参数对的方式进行
+配置即可。
+
+
+在服务路由模式下，zuul默认会为每一个eureka的服务实例建立以服务名命名的默认路径
