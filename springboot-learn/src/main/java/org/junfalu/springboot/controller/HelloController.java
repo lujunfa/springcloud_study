@@ -1,5 +1,7 @@
 package org.junfalu.springboot.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.junfalu.springboot.Entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +20,7 @@ import java.util.List;
  * @Date: 2018/11/15 09:32
  * @Description:
  */
-
+@Api(value = "HelloController", tags = {"开放接口", "hello接口"})
 @RestController
 public class HelloController {
 
@@ -34,6 +36,7 @@ public class HelloController {
         return "hello";
     }
 
+    @ApiOperation("返回用户")
     @RequestMapping("/getUser")
     public User getUser(String name){
         if("lujunfa".equals(name))

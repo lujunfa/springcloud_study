@@ -1,15 +1,21 @@
 package org.junfalu.springboot.Entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @Author: lujunfa
  * @Date: 2018/11/16 13:56
  * @Description:
  */
+@ApiModel("用户实体")
 public class User {
+
+    @ApiModelProperty("名字")
     private  String name ;
-
+    @ApiModelProperty("年龄")
     private int age;
-
+    @ApiModelProperty("性别")
     private char gender;
 
     public User() {
