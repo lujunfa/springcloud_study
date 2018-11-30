@@ -124,7 +124,7 @@ public class Test11Collectors {
 
         //获取分数最高的前俩个人信息
         System.out.println("获取分数最高的前俩个人信息");
-        userList.stream().sorted((o1,o2)->Integer.compare(o1.getScore(), o2.getScore()))
+        userList.stream().sorted((o2,o1)->Integer.compare(o1.getScore(), o2.getScore()))
                 .limit(2).collect(Collectors.toList()).forEach(System.out::println);
 
 

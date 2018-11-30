@@ -21,3 +21,14 @@ user-service.ribbon.listOfServers=http://localhost:8080/,http://localhost:8081/
 
 
 在服务路由模式下，zuul默认会为每一个eureka的服务实例建立以服务名命名的默认路径
+
+本地跳转:路径前面加forward前缀，代表会跳转到zuul本地为/local的请求，所以在zuul本地还得创建一个@requestMapping("/local/**")的服务接口
+zuul.routes.api-a.path=/api-a/**
+zuul.routes.api-a.url=http://localhost:8001/
+zuul.routes.api-b.path=/api-b/**
+zuul.routes.api-b.url=forward:/local
+
+zuul对每一个请求的路由时，都是由几类过滤器分工合作完成的。pre类型的过滤器完成路由映射，它将请求路径与配置的路由规则进行匹配，
+找到需要转发的目的地址。而请求转发的部分则是由route类型的过滤器来完成。
+在zuul中的过滤器必须包括四个基本特征:过滤类型，执行顺序，执行条件，具体操作。
+zuul包括四类pre,routting,post,error四类过滤器，对应着四种不同的执行时间
