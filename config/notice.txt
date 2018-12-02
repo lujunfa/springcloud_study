@@ -1,0 +1,9 @@
+springcloud-config
+
+通过浏览器访问http://localhost:7001/springcloud_study/test这个地址，
+会得到
+{"name":"springcloud_study","profiles":["test"],"label":"master","version":"e2779bee7ee3771846ce894da402f48e887c4d29",
+"propertySources":[{"name":"https://github.com/lujunfa/springcloud_study.git/spring_cloud_in_action/config-repo/springcloud_study-test.properties",
+"source":{"from":"git-test-1.0"}},{"name":"https://github.com/lujunfa/springcloud_study.git/spring_cloud_in_action/config-repo/springcloud_study.properties",
+"source":{"from":"git-default-1.0"}}]}
+然后config会将git仓库的配置文件clone到本地，这样即使git仓库宕机了，依然能正确配置项目
