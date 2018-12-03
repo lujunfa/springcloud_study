@@ -15,8 +15,6 @@ public class TestController {
     @Value("${from}")
     private String from;
 
-    @Autowired
-    private Environment environment;
 
     @RequestMapping("/from")
     public String from(){
