@@ -7,6 +7,8 @@ import org.junfalu.ribon_consumer.hystrix.command.UserCommand;
 import org.junfalu.ribon_consumer.hystrix.command.UserObervebleCommand;
 import org.junfalu.ribon_consumer.service.HelloService;
 import org.junfalu.ribon_consumer.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import rx.Observable;
 import rx.Observer;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -31,7 +34,7 @@ import java.util.concurrent.ExecutionException;
  */
 @RestController
 public class ConsumerController {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerController.class);
     @Autowired
     RestTemplate restTemplate;
 
@@ -42,7 +45,7 @@ public class ConsumerController {
     UserService userService;
 
     @RequestMapping(value = "/ribbon-consummer",method = RequestMethod.GET)
-    public String helloConsumer(){
+    public String helloConsumer(HttpServletRequest request){
         return restTemplate.getForEntity("http://HELLO-SERVICE/hello",String.class).getBody();
     }
 

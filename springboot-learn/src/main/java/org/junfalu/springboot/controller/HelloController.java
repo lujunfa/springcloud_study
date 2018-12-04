@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,13 +24,14 @@ import java.util.List;
 @Api(value = "HelloController", tags = {"开放接口", "hello接口"})
 @RestController
 public class HelloController {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelloController.class);
     Logger logger = LoggerFactory.getLogger(HelloController.class);
     @Autowired
     private DiscoveryClient client; //eureka服务发现客户端
 
     @RequestMapping("/hello")
-    public String index(){
+    public String index(HttpServletRequest request){
+        LOGGER.info("traceId:{},spanId:{}", request.getHeader("X-B3-TraceId"), request.getHeader("X-B3-SpanId"));
         ServiceInstance serviceInstance = client.getLocalServiceInstance();
 
         logger.info("/hello.host："+serviceInstance.getHost()+",service_id=" + serviceInstance.getServiceId());
