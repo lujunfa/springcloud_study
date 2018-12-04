@@ -18,6 +18,6 @@ public class Sender {
     public void send(){
         String context = "hello"+new Date();
         System.out.println("sender ："+context);
-        this.template.convertAndSend("hello,"+context);
+        this.template.convertAndSend("hello",context);
     }
 }
