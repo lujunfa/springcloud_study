@@ -1,0 +1,6 @@
+当一个服务存在a,b,c三个实例时，通过git修改对应的服务配置时，此时通过访问a实例的/bus/refresh节点时，a实例在向config-server拉取
+最新的配置值时，还会向消息总线发送消息，这样另外几个服务实例也会收到配置已更新的消息，也会向config-server拉取最新的配置信息。
+
+发送/bus/refresh?destination=实例名可以指定配置刷新范围
+
+我们也可以将config-server纳入到消息总线上来，这样只要向config-server的/bus/refresh节点发送请求时就可以更新配置
