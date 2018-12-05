@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>zipkin</name>
-    <description>服务跟踪数据分析工具</description>
+    <description>服务跟踪数据收集分析服务器</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
