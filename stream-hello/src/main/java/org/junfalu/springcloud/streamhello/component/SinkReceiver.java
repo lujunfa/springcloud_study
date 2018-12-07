@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.messaging.handler.annotation.SendTo;
 
 /**
  * @Author: lujunfa  2018/12/5 16:00
@@ -25,6 +27,7 @@ public class SinkReceiver {
      * @param payLoad
      */
     @StreamListener(Sink.INPUT)
+    @SendTo(Processor.OUTPUT) //在消费完消息后进行反馈，将方法结果发送到反馈通道，可对消息发送者进行反馈
     public void receive(Object payLoad){
         LOGGER.info("RECEIVER:"+ payLoad);
     }
