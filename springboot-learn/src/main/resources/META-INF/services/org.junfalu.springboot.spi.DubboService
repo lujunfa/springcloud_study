@@ -1,0 +1,2 @@
+org.junfalu.springboot.spi.RedDubboServiceImpl
+org.junfalu.springboot.spi.YellowDubboServiceImpl
